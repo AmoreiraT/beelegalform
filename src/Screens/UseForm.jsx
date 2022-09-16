@@ -90,45 +90,43 @@ const UserForm = () => {
   }
   const handleAddData = async (values) => {
     setLoading(true);
-    await delay(3);
+    try {
+      let save = await fetch('https://apps.beelegal.com.br/juridico_one/Integration/Save', {
+        method: "POST",
+        headers: {
+          'Accept': "application/json",
+          'Content-Type': "application/json",
+          'auth': ''
+        },
+        body: JSON.stringify({
+          tid: "VF9GRU5BX0xPVzowNzk4OTc=",
+          fid: 409,
+          data: {
+            EMAIL: values.email,
+            EMPRESA: values.empresa,
+            FLG_COMPLIANCE: values.flg_compliance,
+            FLG_CONTRATOS: values.flg_contratos,
+            FLG_FINANCEIRO_E_FATURAMENTO_INTEGRADOS: values.flg_financeiro_e_faturamento_integrados,
+            FLG_INTELIGENCIA_ARTIFICIAL: values.flg_inteligencia_artificial,
+            FLG_LGPD: values.flg_lgpd,
+            FLG_ROBOS_DE_CAPTURA_E_INTEGRACAO: values.flg_robos_de_captura_e_integracao,
+            FLG_SISTEMA_GESTAO_JURIDICA_EMPRESAS: values.flg_sistema_gestão_juridica_empresas,
+            FLG_SISTEMA_GESTAO_JURIDICA_ESCRITORIOS: values.flg_sistema_gestão_juridica_escritorios,
+            FLG_SOLUCOES_MOBILE_IOS_E_ANDROID: values.flg_solucoes_mobile_ios_e_android,
+            FLG_VISUAL_LAW: values.flg_visual_law,
+            FLG_WORKFLOW_DE_DESPESAS: values.flg_workflow_de_despesas,
+            NOME: values.nome,
+            office: values.office,
+            TELEFONE: values.telefone,
+          }
+        })
+      });
+      let resSave = await save.json();
+      console.log(resSave);
+    } catch (errorSaveData) {
+      console.log('error save data', errorSaveData)
+    }
     setLoading(false);
-    // try {
-    //   let save = await fetch('https://apps.beelegal.com.br/juridico_one/Integration/Save', {
-    //     method: "POST",
-    //     headers: {
-    //       'Accept': "application/json",
-    //       'Content-Type': "application/json",
-    //       'auth': ''
-    //     },
-    //     body: JSON.stringify({
-    //       tid: "VF9GRU5BX0xPVzowNzk4OTc=",
-    //       fid: 409,
-    //       data: {
-    //         EMAIL: values.email,
-    //         EMPRESA: values.empresa,
-    //         FLG_COMPLIANCE: values.flg_compliance,
-    //         FLG_CONTRATOS: values.flg_contratos,
-    //         FLG_FINANCEIRO_E_FATURAMENTO_INTEGRADOS: values.flg_financeiro_e_faturamento_integrados,
-    //         FLG_INTELIGENCIA_ARTIFICIAL: values.flg_inteligencia_artificial,
-    //         FLG_LGPD: values.flg_lgpd,
-    //         FLG_ROBOS_DE_CAPTURA_E_INTEGRACAO: values.flg_robos_de_captura_e_integracao,
-    //         FLG_SISTEMA_GESTAO_JURIDICA_EMPRESAS: values.flg_sistema_gestão_juridica_empresas,
-    //         FLG_SISTEMA_GESTAO_JURIDICA_ESCRITORIOS: values.flg_sistema_gestão_juridica_escritorios,
-    //         FLG_SOLUCOES_MOBILE_IOS_E_ANDROID: values.flg_solucoes_mobile_ios_e_android,
-    //         FLG_VISUAL_LAW: values.flg_visual_law,
-    //         FLG_WORKFLOW_DE_DESPESAS: values.flg_workflow_de_despesas,
-    //         NOME: values.nome,
-    //         office: values.office,
-    //         TELEFONE: values.telefone,
-    //       }
-    //     })
-    //   });
-    //   let resSave = await save.json();
-    //   console.log(resSave);
-
-    // } catch (errorSaveData) {
-    //   console.log('error save data', errorSaveData)
-    // }
   };
 
   const delay = (tempo) => new Promise(r => setTimeout(r, tempo * 1000));
@@ -427,7 +425,7 @@ const UserForm = () => {
         onClose={handleCloseDialogs('sucess')}
       >
         <DialogTitle>
-          { loading ? 'Salvando dados' : 'Titulo de agradecimento' }
+          {loading ? 'Salvando dados' : 'Titulo de agradecimento'}
         </DialogTitle>
         <DialogContent>
           {
