@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   Grid,
   makeStyles,
@@ -16,6 +16,13 @@ import {
   FormGroup,
   Typography,
   TextareaAutosize,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+
 } from "@material-ui/core"
 import { green } from "@material-ui/core/colors";
 import { Formik, Form, Field } from "formik"
@@ -29,6 +36,8 @@ margin: 15px;
 `;
 
 const useStyle = makeStyles((theme) => ({
+
+
   padding: {
     padding: theme.spacing(3),
   },
@@ -58,67 +67,6 @@ const initialValues = {
   flg_solucoes_mobile_ios_e_android: '0',
 }
 
-const handleAddData = async (values) => {
-  /**
-   * fetch(process.env.REACT_APP_EPM+"Integration/Save", {
-            method: "POST",
-            headers: {
-              'Accept': "application/json",
-              'Content-Type': "application/json",
-              'auth': JSON.parse(sessionStorage.getItem("userInformation")).auth_ticket
-            },
-            body: JSON.stringify({
-              tid: "VF9FTUFJTF9UQVNLOjA5NDE1MQ==",
-              fid: 139,
-              data: {
-                mail_to: adm.email,
-                mail_subject: "Novo cadastro para aprovação",
-                mail_body: buildBody(user)
-              }
-            }),
-          })
-   */
-
-  try {
-    let save = await fetch('https://apps.beelegal.com.br/juridico_one/Integration/Save', {
-      method: "POST",
-      headers: {
-        'Accept': "application/json",
-        'Content-Type': "application/json",
-        'auth': ''
-      },
-      body: JSON.stringify({
-        tid: "VF9GRU5BX0xPVzowNzk4OTc=",
-        fid: 409,
-        data: {
-          EMAIL: values.email,
-          EMPRESA: values.empresa,
-          FLG_COMPLIANCE: values.flg_compliance,
-          FLG_CONTRATOS: values.flg_contratos,
-          FLG_FINANCEIRO_E_FATURAMENTO_INTEGRADOS: values.flg_financeiro_e_faturamento_integrados,
-          FLG_INTELIGENCIA_ARTIFICIAL: values.flg_inteligencia_artificial,
-          FLG_LGPD: values.flg_lgpd,
-          FLG_ROBOS_DE_CAPTURA_E_INTEGRACAO: values.flg_robos_de_captura_e_integracao,
-          FLG_SISTEMA_GESTAO_JURIDICA_EMPRESAS: values.flg_sistema_gestão_juridica_empresas,
-          FLG_SISTEMA_GESTAO_JURIDICA_ESCRITORIOS: values.flg_sistema_gestão_juridica_escritorios,
-          FLG_SOLUCOES_MOBILE_IOS_E_ANDROID: values.flg_solucoes_mobile_ios_e_android,
-          FLG_VISUAL_LAW: values.flg_visual_law,
-          FLG_WORKFLOW_DE_DESPESAS: values.flg_workflow_de_despesas,
-          NOME: values.nome,
-          office: values.office,
-          TELEFONE: values.telefone,
-        }
-      })
-    });
-    let resSave = await save.json();
-    console.log(resSave);
-
-  } catch (errorSaveData) {
-    console.log('error save data', errorSaveData)
-  }
-};
-
-
 //validation schema
 let validationSchema = Yup.object().shape({
   empresa: Yup.string().required("Required"),
@@ -128,11 +76,71 @@ let validationSchema = Yup.object().shape({
 })
 
 const UserForm = () => {
+  const [dialogs, setDialogs] = useState({
+    sucess: false
+  });
   const classes = useStyle()
 
   const onSubmit = (values) => {
     console.log(values)
+    setDialogs({
+      ...dialogs,
+      sucess: true
+    });
     handleAddData(values);
+  }
+  const handleAddData = async (values) => {
+    // try {
+    //   let save = await fetch('https://apps.beelegal.com.br/juridico_one/Integration/Save', {
+    //     method: "POST",
+    //     headers: {
+    //       'Accept': "application/json",
+    //       'Content-Type': "application/json",
+    //       'auth': ''
+    //     },
+    //     body: JSON.stringify({
+    //       tid: "VF9GRU5BX0xPVzowNzk4OTc=",
+    //       fid: 409,
+    //       data: {
+    //         EMAIL: values.email,
+    //         EMPRESA: values.empresa,
+    //         FLG_COMPLIANCE: values.flg_compliance,
+    //         FLG_CONTRATOS: values.flg_contratos,
+    //         FLG_FINANCEIRO_E_FATURAMENTO_INTEGRADOS: values.flg_financeiro_e_faturamento_integrados,
+    //         FLG_INTELIGENCIA_ARTIFICIAL: values.flg_inteligencia_artificial,
+    //         FLG_LGPD: values.flg_lgpd,
+    //         FLG_ROBOS_DE_CAPTURA_E_INTEGRACAO: values.flg_robos_de_captura_e_integracao,
+    //         FLG_SISTEMA_GESTAO_JURIDICA_EMPRESAS: values.flg_sistema_gestão_juridica_empresas,
+    //         FLG_SISTEMA_GESTAO_JURIDICA_ESCRITORIOS: values.flg_sistema_gestão_juridica_escritorios,
+    //         FLG_SOLUCOES_MOBILE_IOS_E_ANDROID: values.flg_solucoes_mobile_ios_e_android,
+    //         FLG_VISUAL_LAW: values.flg_visual_law,
+    //         FLG_WORKFLOW_DE_DESPESAS: values.flg_workflow_de_despesas,
+    //         NOME: values.nome,
+    //         office: values.office,
+    //         TELEFONE: values.telefone,
+    //       }
+    //     })
+    //   });
+    //   let resSave = await save.json();
+    //   console.log(resSave);
+
+    // } catch (errorSaveData) {
+    //   console.log('error save data', errorSaveData)
+    // }
+  };
+
+  const handleOpenDialogs = (item) => (value) => {
+    setDialogs({
+      ...dialogs,
+      [item]: true
+    });
+  }
+
+  const handleCloseDialogs = (item) => (value) => {
+    setDialogs({
+      ...dialogs,
+      [item]: false
+    });
   }
 
   return (
@@ -405,6 +413,31 @@ const UserForm = () => {
           </Formik>
         </Card>
       </Grid>
+      <Dialog
+        open={dialogs.sucess}
+        onClose={handleCloseDialogs('sucess')}
+      >
+        <DialogTitle>
+          Titulo de agradecimento
+        </DialogTitle>
+        <DialogContent>
+          {
+            1 == 1 ?
+              <DialogContentText >
+                <CircularProgress />
+              </DialogContentText>
+              :
+              <DialogContentText >
+                Mensagem de agradecimento
+              </DialogContentText>
+          }
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialogs('sucess')} autoFocus>
+            <h4 style={{ color: 'rgba(56, 242, 5, 0.93)' }} >Certo!</h4>
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   )
 }
