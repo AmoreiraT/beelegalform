@@ -36,8 +36,6 @@ margin: 15px;
 `;
 
 const useStyle = makeStyles((theme) => ({
-
-
   padding: {
     padding: theme.spacing(3),
   },
@@ -79,6 +77,7 @@ const UserForm = () => {
   const [dialogs, setDialogs] = useState({
     sucess: false
   });
+  const [loading, setLoading] = useState(false);
   const classes = useStyle()
 
   const onSubmit = (values) => {
@@ -90,6 +89,9 @@ const UserForm = () => {
     handleAddData(values);
   }
   const handleAddData = async (values) => {
+    setLoading(true);
+    await delay(3);
+    setLoading(false);
     // try {
     //   let save = await fetch('https://apps.beelegal.com.br/juridico_one/Integration/Save', {
     //     method: "POST",
@@ -129,6 +131,8 @@ const UserForm = () => {
     // }
   };
 
+  const delay = (tempo) => new Promise(r => setTimeout(r, tempo * 1000));
+
   const handleOpenDialogs = (item) => (value) => {
     setDialogs({
       ...dialogs,
@@ -141,6 +145,11 @@ const UserForm = () => {
       ...dialogs,
       [item]: false
     });
+  }
+
+  const finishSession = () => {
+    window.location.reload();
+    handleCloseDialogs('sucess');
   }
 
   return (
@@ -418,14 +427,22 @@ const UserForm = () => {
         onClose={handleCloseDialogs('sucess')}
       >
         <DialogTitle>
-          Titulo de agradecimento
+          { loading ? 'Salvando dados' : 'Titulo de agradecimento' }
         </DialogTitle>
         <DialogContent>
           {
-            1 == 1 ?
-              <DialogContentText >
-                <CircularProgress />
-              </DialogContentText>
+            loading ?
+              <Grid
+                container
+                justifyContent='center'
+                alignItems='center'
+                direction="column"
+
+              >
+                <DialogContentText >
+                  <CircularProgress style={{ color: 'rgba(56, 242, 5, 0.93)' }} />
+                </DialogContentText>
+              </Grid>
               :
               <DialogContentText >
                 Mensagem de agradecimento
@@ -433,7 +450,7 @@ const UserForm = () => {
           }
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialogs('sucess')} autoFocus>
+          <Button onClick={finishSession} autoFocus style={{ display: loading ? 'none' : 'block' }} >
             <h4 style={{ color: 'rgba(56, 242, 5, 0.93)' }} >Certo!</h4>
           </Button>
         </DialogActions>
