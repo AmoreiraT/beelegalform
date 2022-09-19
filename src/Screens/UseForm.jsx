@@ -75,61 +75,13 @@ let validationSchema = Yup.object().shape({
 
 const UserForm = () => {
   const [dialogs, setDialogs] = useState({
-    sucess: false
+    sucess: false,
+    consentForm: false,
   });
+  const [valuesForm, setValuesForm] = useState();
+  const [FLG_ACORDO, setFLG_ACORDO] = useState(false);
   const [loading, setLoading] = useState(false);
-  const classes = useStyle()
-
-  const onSubmit = (values) => {
-    console.log(values)
-    setDialogs({
-      ...dialogs,
-      sucess: true
-    });
-    handleAddData(values);
-  }
-  const handleAddData = async (values) => {
-    setLoading(true);
-    try {
-      let save = await fetch('https://apps.beelegal.com.br/juridico_one/Integration/Save', {
-        method: "POST",
-        headers: {
-          'Accept': "application/json",
-          'Content-Type': "application/json",
-          'auth': ''
-        },
-        body: JSON.stringify({
-          tid: "VF9GRU5BX0xPVzowNzk4OTc=",
-          fid: 409,
-          data: {
-            EMAIL: values.email,
-            EMPRESA: values.empresa,
-            FLG_COMPLIANCE: values.flg_compliance,
-            FLG_CONTRATOS: values.flg_contratos,
-            FLG_FINANCEIRO_E_FATURAMENTO_INTEGRADOS: values.flg_financeiro_e_faturamento_integrados,
-            FLG_INTELIGENCIA_ARTIFICIAL: values.flg_inteligencia_artificial,
-            FLG_LGPD: values.flg_lgpd,
-            FLG_ROBOS_DE_CAPTURA_E_INTEGRACAO: values.flg_robos_de_captura_e_integracao,
-            FLG_SISTEMA_GESTAO_JURIDICA_EMPRESAS: values.flg_sistema_gestão_juridica_empresas,
-            FLG_SISTEMA_GESTAO_JURIDICA_ESCRITORIOS: values.flg_sistema_gestão_juridica_escritorios,
-            FLG_SOLUCOES_MOBILE_IOS_E_ANDROID: values.flg_solucoes_mobile_ios_e_android,
-            FLG_VISUAL_LAW: values.flg_visual_law,
-            FLG_WORKFLOW_DE_DESPESAS: values.flg_workflow_de_despesas,
-            NOME: values.nome,
-            office: values.office,
-            TELEFONE: values.telefone,
-          }
-        })
-      });
-      let resSave = await save.json();
-      console.log(resSave);
-    } catch (errorSaveData) {
-      console.log('error save data', errorSaveData)
-    }
-    setLoading(false);
-  };
-
-  const delay = (tempo) => new Promise(r => setTimeout(r, tempo * 1000));
+  const classes = useStyle();
 
   const handleOpenDialogs = (item) => (value) => {
     setDialogs({
@@ -145,6 +97,98 @@ const UserForm = () => {
     });
   }
 
+  const onSubmit = (values) => {
+    console.log(values)
+    setDialogs({
+      ...dialogs,
+      sucess: true
+    });
+    handleAddData(values);
+  }
+  const handleAddData = async (values) => {
+    setDialogs({
+      ...dialogs,
+      sucess: true
+    });
+    setLoading(true);
+    await delay(3);
+    try {
+      let save = await fetch('https://apps.beelegal.com.br/juridico_one/Integration/Save', {
+        method: "POST",
+        headers: {
+          'Accept': "application/json",
+          'Content-Type': "application/json",
+          'auth': ''
+        },
+        body: JSON.stringify({
+          tid: "VF9GRU5BTEFXOjA2ODkwOA==",
+          fid: 410,
+          data: {
+            EMAIL: valuesForm.email,
+            EMPRESA: valuesForm.empresa,
+            FLG_COMPLIANCE: valuesForm.flg_compliance,
+            FLG_CONTRATOS: valuesForm.flg_contratos,
+            FLG_FINANCEIRO: valuesForm.flg_financeiro_e_faturamento_integrados,
+            FLG_IA: valuesForm.flg_inteligencia_artificial,
+            FLG_LGPD: valuesForm.flg_lgpd,
+            FLG_ROBO: valuesForm.flg_robos_de_captura_e_integracao,
+            FLG_EMPRESA: valuesForm.flg_sistema_gestão_juridica_empresas,
+            FLG_ESCRITORIO: valuesForm.flg_sistema_gestão_juridica_escritorios,
+            FLG_MOBILE: valuesForm.flg_solucoes_mobile_ios_e_android,
+            FLG_VISUAL: valuesForm.flg_visual_law,
+            FLG_DESPESA: valuesForm.flg_workflow_de_despesas,
+            NOME: valuesForm.nome,
+            CARGO: valuesForm.office,
+            WHATSAPP: valuesForm.telefone,
+            FLG_ACORDO: FLG_ACORDO ? '1' : '0',
+            FLG_ML: valuesForm.flg_machine_learning
+          }
+        })
+      });
+
+      let resSave = await save.json();
+      console.log(resSave);
+
+    } catch (errorSaveData) {
+      console.log('error save data', errorSaveData)
+    }
+
+    const data = {
+      EMAIL: valuesForm.email,
+      EMPRESA: valuesForm.empresa,
+      FLG_COMPLIANCE: valuesForm.flg_compliance,
+      FLG_CONTRATOS: valuesForm.flg_contratos,
+      FLG_FINANCEIRO: valuesForm.flg_financeiro_e_faturamento_integrados,
+      FLG_IA: valuesForm.flg_inteligencia_artificial,
+      FLG_LGPD: valuesForm.flg_lgpd,
+      FLG_ROBO: valuesForm.flg_robos_de_captura_e_integracao,
+      FLG_EMPRESA: valuesForm.flg_sistema_gestão_juridica_empresas,
+      FLG_ESCRITORIO: valuesForm.flg_sistema_gestão_juridica_escritorios,
+      FLG_MOBILE: valuesForm.flg_solucoes_mobile_ios_e_android,
+      FLG_VISUAL: valuesForm.flg_visual_law,
+      FLG_DESPESA: valuesForm.flg_workflow_de_despesas,
+      NOME: valuesForm.nome,
+      CARGO: valuesForm.office,
+      WHATSAPP: valuesForm.telefone,
+      FLG_ACORDO: FLG_ACORDO ? '1' : '0',
+      FLG_ML: valuesForm.flg_machine_learning
+    }
+    setLoading(false);
+    console.log(data)
+  };
+
+  const handleConsentAccept = (values) => {
+    // handleOpenDialogs('consentForm');
+    setDialogs({
+      ...dialogs,
+      consentForm: true
+    });
+    setValuesForm(values);
+    console.log(values)
+  }
+
+  const delay = (tempo) => new Promise(r => setTimeout(r, tempo * 1000));
+
   const finishSession = () => {
     window.location.reload();
     handleCloseDialogs('sucess');
@@ -159,32 +203,14 @@ const UserForm = () => {
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={onSubmit}>
+            // onSubmit={handleOpenDialogs('consentForm')}
+            onSubmit={(initialValues) => handleConsentAccept(initialValues)}
+          >
             {({ dirty, isValid, values, handleChange, handleBlur }) => {
               return (
                 <Form>
                   <CardContent>
                     <Grid item container spacing={1} justify="center">
-                      <Grid item xs={12} sm={6} md={6}>
-                        <Field
-                          label="Empresa"
-                          variant="outlined"
-                          fullWidth
-                          name="empresa"
-                          value={values.empresa}
-                          component={TextField}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6} md={6}>
-                        <Field
-                          label="Nome Completo"
-                          variant="outlined"
-                          fullWidth
-                          name="nome"
-                          value={values.nome}
-                          component={TextField}
-                        />
-                      </Grid>
                       <Grid item xs={12} sm={6} md={6}>
                         <Field
                           label="Cargo"
@@ -205,6 +231,26 @@ const UserForm = () => {
                           component={TextField}
                         />
                       </Grid>
+                      <Grid item xs={12} sm={6} md={6}>
+                        <Field
+                          label="Empresa"
+                          variant="outlined"
+                          fullWidth
+                          name="empresa"
+                          value={values.empresa}
+                          component={TextField}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6} md={6}>
+                        <Field
+                          label="Nome Completo"
+                          variant="outlined"
+                          fullWidth
+                          name="nome"
+                          value={values.nome}
+                          component={TextField}
+                        />
+                      </Grid>
                       <Grid item xs={12} sm={12} md={12}>
                         <Field
                           label="WhatsApp"
@@ -217,21 +263,6 @@ const UserForm = () => {
                       </Grid>
                       <Grid item xs={12} sm={12} md={12}>
                         <FormGroup>
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                onChange={() => values.flg_lgpd = values.flg_lgpd === '0' ? '1' : '0'}
-                                style={{ color: '#2FDF2F' }}
-                                sx={{
-                                  color: green[800],
-                                  '&.Mui-checked': {
-                                    color: green[600],
-                                  },
-                                }}
-                              />
-                            }
-                            label="LGPD"
-                          />
                           <FormControlLabel
                             control={
                               <Checkbox
@@ -266,6 +297,21 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
+                                onChange={() => values.flg_financeiro_e_faturamento_integrados = values.flg_financeiro_e_faturamento_integrados === '0' ? '1' : '0'}
+                                sx={{
+                                  color: green[800],
+                                  '&.Mui-checked': {
+                                    color: green[600],
+                                  },
+                                }}
+                              />
+                            }
+                            label="Financeiro e Faturamento Integrados"
+                          />
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                style={{ color: '#2FDF2F' }}
                                 onChange={() => values.flg_contratos = values.flg_contratos === '0' ? '1' : '0'}
                                 sx={{
                                   color: green[800],
@@ -276,6 +322,21 @@ const UserForm = () => {
                               />
                             }
                             label="Inteligencia Artificial"
+                          />
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                onChange={() => values.flg_lgpd = values.flg_lgpd === '0' ? '1' : '0'}
+                                style={{ color: '#2FDF2F' }}
+                                sx={{
+                                  color: green[800],
+                                  '&.Mui-checked': {
+                                    color: green[600],
+                                  },
+                                }}
+                              />
+                            }
+                            label="LGPD"
                           />
                           <FormControlLabel
                             control={
@@ -296,7 +357,7 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_sistema_gestão_juridica_escritorios = values.flg_sistema_gestão_juridica_escritorios === '0' ? '1' : '0'}
+                                onChange={() => values.flg_robos_de_captura_e_integracao = values.flg_robos_de_captura_e_integracao === '0' ? '1' : '0'}
                                 sx={{
                                   color: green[800],
                                   '&.Mui-checked': {
@@ -305,7 +366,7 @@ const UserForm = () => {
                                 }}
                               />
                             }
-                            label="Sistema Gestão Jurídica (Escritórios)"
+                            label="Robôs de captura e integração"
                           />
                           <FormControlLabel
                             control={
@@ -326,7 +387,7 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_visual_law = values.flg_visual_law === '0' ? '1' : '0'}
+                                onChange={() => values.flg_sistema_gestão_juridica_escritorios = values.flg_sistema_gestão_juridica_escritorios === '0' ? '1' : '0'}
                                 sx={{
                                   color: green[800],
                                   '&.Mui-checked': {
@@ -335,52 +396,7 @@ const UserForm = () => {
                                 }}
                               />
                             }
-                            label="Visual Law"
-                          />
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_robos_de_captura_e_integracao = values.flg_robos_de_captura_e_integracao === '0' ? '1' : '0'}
-                                sx={{
-                                  color: green[800],
-                                  '&.Mui-checked': {
-                                    color: green[600],
-                                  },
-                                }}
-                              />
-                            }
-                            label="Robôs de captura e integração"
-                          />
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_financeiro_e_faturamento_integrados = values.flg_financeiro_e_faturamento_integrados === '0' ? '1' : '0'}
-                                sx={{
-                                  color: green[800],
-                                  '&.Mui-checked': {
-                                    color: green[600],
-                                  },
-                                }}
-                              />
-                            }
-                            label="Financeiro e Faturamento Integrados"
-                          />
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_workflow_de_despesas = values.flg_workflow_de_despesas === '0' ? '1' : '0'}
-                                sx={{
-                                  color: green[800],
-                                  '&.Mui-checked': {
-                                    color: green[600],
-                                  },
-                                }}
-                              />
-                            }
-                            label="Workflow de Despesas"
+                            label="Sistema Gestão Jurídica (Escritórios)"
                           />
                           <FormControlLabel
                             control={
@@ -397,10 +413,38 @@ const UserForm = () => {
                             }
                             label="Soluções Mobile IOS e Android"
                           />
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                style={{ color: '#2FDF2F' }}
+                                onChange={() => values.flg_visual_law = values.flg_visual_law === '0' ? '1' : '0'}
+                                sx={{
+                                  color: green[800],
+                                  '&.Mui-checked': {
+                                    color: green[600],
+                                  },
+                                }}
+                              />
+                            }
+                            label="Visual Law"
+                          />
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                style={{ color: '#2FDF2F' }}
+                                onChange={() => values.flg_workflow_de_despesas = values.flg_workflow_de_despesas === '0' ? '1' : '0'}
+                                sx={{
+                                  color: green[800],
+                                  '&.Mui-checked': {
+                                    color: green[600],
+                                  },
+                                }}
+                              />
+                            }
+                            label="Workflow de Despesas"
+                          />
                         </FormGroup>
-
                       </Grid>
-
                     </Grid>
                   </CardContent>
                   <CardActions>
@@ -435,7 +479,6 @@ const UserForm = () => {
                 justifyContent='center'
                 alignItems='center'
                 direction="column"
-
               >
                 <DialogContentText >
                   <CircularProgress style={{ color: 'rgba(56, 242, 5, 0.93)' }} />
@@ -448,8 +491,56 @@ const UserForm = () => {
           }
         </DialogContent>
         <DialogActions>
-          <Button onClick={finishSession} autoFocus style={{ display: loading ? 'none' : 'block' }} >
-            <h4 style={{ color: 'rgba(56, 242, 5, 0.93)' }} >Certo!</h4>
+          <Button variant="contained" onClick={finishSession} style={{ display: loading ? 'none' : 'block', color: '#fff', backgroundColor: '#f00' }} autoFocus >
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={dialogs.consentForm}
+        onClose={handleCloseDialogs('consentForm')}
+      >
+        <DialogTitle>
+          Termo de consentimento
+        </DialogTitle>
+        <DialogContent>
+          <Grid
+            container
+            xs={12}
+          >
+            <Grid item>
+              <Typography variant='p' component='div'>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean a risus sit amet augue viverra venenatis quis sit amet purus. Vivamus elementum semper libero, ut vestibulum ligula tincidunt ac. Vestibulum et sem arcu. Nunc pretium, felis ut lacinia viverra, mauris diam porttitor est, vel maximus enim sapien non tellus. Praesent porta ultrices magna, vitae bibendum elit ornare aliquet. Mauris hendrerit turpis imperdiet porttitor tincidunt. Curabitur sed nulla tristique, feugiat lectus in, finibus mauris. Morbi tristique quis velit a pulvinar. Mauris malesuada libero id purus tincidunt faucibus. Sed eleifend, arcu et convallis scelerisque, leo lacus ultrices neque, nec semper lacus velit sit amet lorem. Nulla enim dui, auctor sit amet ligula id, rhoncus vestibulum mauris. Nam dapibus nunc mauris, eget volutpat augue bibendum id. Donec interdum sed eros vitae venenatis. Aliquam arcu felis, lacinia ut scelerisque vitae, vestibulum eget sapien. Etiam ac accumsan purus.
+
+                Nam sollicitudin, magna a facilisis imperdiet, lectus leo volutpat massa, ac fringilla orci lectus eget ex. Nunc a elementum diam, eu consectetur lorem. Sed massa purus, feugiat in est dapibus, tempor dapibus magna. Quisque fringilla enim magna. Sed convallis volutpat dui. Aliquam erat volutpat. Aenean felis nibh, hendrerit lobortis est hendrerit, aliquam iaculis lectus. Phasellus lobortis massa quis sapien accumsan condimentum. Fusce purus purus, sollicitudin sit amet iaculis a, sodales ut augue. Sed cursus, augue id gravida vestibulum, dolor arcu egestas dui, id pellentesque augue tortor eget velit. Quisque vel aliquet ex. Phasellus porttitor turpis quis tristique varius. Integer molestie egestas sodales. Ut aliquet nunc sed posuere pharetra. Aenean in sapien non dui rutrum imperdiet. Pellentesque euismod bibendum malesuada.
+              </Typography>
+            </Grid>
+            <Grid
+              container
+              item
+              justifyContent='center'
+              alignItems='center'
+              style={{ marginTop: 15 }}
+            >
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    style={{ color: 'rgba(56, 242, 5, 0.93)' }}
+                    checked={FLG_ACORDO}
+                    onChange={() => setFLG_ACORDO(!FLG_ACORDO)}
+                  />
+                }
+                label="Estou de acordo, desejo continuar"
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" onClick={handleCloseDialogs('consentForm')} style={{ color: '#fff', backgroundColor: '#f00' }} autoFocus>
+            Cancelar
+          </Button>
+          <Button disabled={!FLG_ACORDO} variant="contained" onClick={handleAddData} style={{ color: '#fff', backgroundColor: FLG_ACORDO ? 'rgba(56, 242, 5, 0.93)' : '#ccc' }} >
+            De Acordo
           </Button>
         </DialogActions>
       </Dialog>
@@ -457,4 +548,4 @@ const UserForm = () => {
   )
 }
 
-export default UserForm
+export default UserForm;
