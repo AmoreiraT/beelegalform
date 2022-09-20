@@ -105,6 +105,7 @@ const UserForm = () => {
     });
     handleAddData(values);
   }
+
   const handleAddData = async (values) => {
     setDialogs({
       ...dialogs,
@@ -145,40 +146,13 @@ const UserForm = () => {
           }
         })
       });
-
-      let resSave = await save.json();
-      console.log(resSave);
-
     } catch (errorSaveData) {
       console.log('error save data', errorSaveData)
     }
-
-    const data = {
-      EMAIL: valuesForm.email,
-      EMPRESA: valuesForm.empresa,
-      FLG_COMPLIANCE: valuesForm.flg_compliance,
-      FLG_CONTRATOS: valuesForm.flg_contratos,
-      FLG_FINANCEIRO: valuesForm.flg_financeiro_e_faturamento_integrados,
-      FLG_IA: valuesForm.flg_inteligencia_artificial,
-      FLG_LGPD: valuesForm.flg_lgpd,
-      FLG_ROBO: valuesForm.flg_robos_de_captura_e_integracao,
-      FLG_EMPRESA: valuesForm.flg_sistema_gestão_juridica_empresas,
-      FLG_ESCRITORIO: valuesForm.flg_sistema_gestão_juridica_escritorios,
-      FLG_MOBILE: valuesForm.flg_solucoes_mobile_ios_e_android,
-      FLG_VISUAL: valuesForm.flg_visual_law,
-      FLG_DESPESA: valuesForm.flg_workflow_de_despesas,
-      NOME: valuesForm.nome,
-      CARGO: valuesForm.office,
-      WHATSAPP: valuesForm.telefone,
-      FLG_ACORDO: FLG_ACORDO ? '1' : '0',
-      FLG_ML: valuesForm.flg_machine_learning
-    }
     setLoading(false);
-    console.log(data)
   };
 
   const handleConsentAccept = (values) => {
-    // handleOpenDialogs('consentForm');
     setDialogs({
       ...dialogs,
       consentForm: true
@@ -203,7 +177,6 @@ const UserForm = () => {
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            // onSubmit={handleOpenDialogs('consentForm')}
             onSubmit={(initialValues) => handleConsentAccept(initialValues)}
           >
             {({ dirty, isValid, values, handleChange, handleBlur }) => {
