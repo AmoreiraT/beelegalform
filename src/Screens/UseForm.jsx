@@ -474,7 +474,7 @@ const UserForm = () => {
         onClose={handleCloseDialogs('consentForm')}
       >
         <DialogTitle>
-          Termo de consentimento
+          Declaração de privacidade e proteção de dados pessoais
         </DialogTitle>
         <DialogContent>
           <Grid
@@ -483,9 +483,23 @@ const UserForm = () => {
           >
             <Grid item>
               <Typography variant='p' component='div'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean a risus sit amet augue viverra venenatis quis sit amet purus. Vivamus elementum semper libero, ut vestibulum ligula tincidunt ac. Vestibulum et sem arcu. Nunc pretium, felis ut lacinia viverra, mauris diam porttitor est, vel maximus enim sapien non tellus. Praesent porta ultrices magna, vitae bibendum elit ornare aliquet. Mauris hendrerit turpis imperdiet porttitor tincidunt. Curabitur sed nulla tristique, feugiat lectus in, finibus mauris. Morbi tristique quis velit a pulvinar. Mauris malesuada libero id purus tincidunt faucibus. Sed eleifend, arcu et convallis scelerisque, leo lacus ultrices neque, nec semper lacus velit sit amet lorem. Nulla enim dui, auctor sit amet ligula id, rhoncus vestibulum mauris. Nam dapibus nunc mauris, eget volutpat augue bibendum id. Donec interdum sed eros vitae venenatis. Aliquam arcu felis, lacinia ut scelerisque vitae, vestibulum eget sapien. Etiam ac accumsan purus.
-
-                Nam sollicitudin, magna a facilisis imperdiet, lectus leo volutpat massa, ac fringilla orci lectus eget ex. Nunc a elementum diam, eu consectetur lorem. Sed massa purus, feugiat in est dapibus, tempor dapibus magna. Quisque fringilla enim magna. Sed convallis volutpat dui. Aliquam erat volutpat. Aenean felis nibh, hendrerit lobortis est hendrerit, aliquam iaculis lectus. Phasellus lobortis massa quis sapien accumsan condimentum. Fusce purus purus, sollicitudin sit amet iaculis a, sodales ut augue. Sed cursus, augue id gravida vestibulum, dolor arcu egestas dui, id pellentesque augue tortor eget velit. Quisque vel aliquet ex. Phasellus porttitor turpis quis tristique varius. Integer molestie egestas sodales. Ut aliquet nunc sed posuere pharetra. Aenean in sapien non dui rutrum imperdiet. Pellentesque euismod bibendum malesuada.
+                Coletamos seus dados com a finalidade de realizar promoções
+                e enviar informações ou realizar contato a respeito de nossas promoções,
+                produtos e serviços que realizamos.
+                Armazenamos seus dados pessoais de forma segura e não os compartilhamos com terceiros.
+                A qualquer tempo, você poderá solicitar seu descredenciamento ou
+                atualização de seus dados nas plataformas WhatsApp e e-mail Marketing
+                que utilizamos ou através do canal do titular, disponibilizado em
+                nosso site, em
+                <a
+                  style={{
+                    color: 'rgba(56, 242, 5, 0.93)'
+                  }}
+                  target="_blank"
+                  href='https://beelegal.com.br/'
+                >
+                  beelegal.com.br
+                </a>
               </Typography>
             </Grid>
             <Grid
@@ -513,7 +527,7 @@ const UserForm = () => {
             Cancelar
           </Button>
           <Button disabled={!FLG_ACORDO} variant="contained" onClick={handleAddData} style={{ color: '#fff', backgroundColor: FLG_ACORDO ? 'rgba(56, 242, 5, 0.93)' : '#ccc' }} >
-            De Acordo
+            Enviar
           </Button>
         </DialogActions>
       </Dialog>
