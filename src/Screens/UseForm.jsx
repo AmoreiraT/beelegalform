@@ -26,6 +26,7 @@ import {
 } from "@material-ui/core"
 import { green } from "@material-ui/core/colors";
 import { Formik, Form, Field } from "formik"
+import MaskedInput from "react-text-mask";
 import * as Yup from "yup"
 import { TextField } from "formik-material-ui"
 import logo from "../assets/logo.png";
@@ -70,13 +71,33 @@ let validationSchema = Yup.object().shape({
   empresa: Yup.string().required("Required"),
   telefone: Yup.string().required("Required"),
   nome: Yup.string().required("Required"),
+  office: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
 })
+
+const phoneNumberMask = [
+  "(",
+  /\d/,
+  /\d/,
+  ")",
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/,
+  "-",
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/
+];
 
 const UserForm = () => {
   const [dialogs, setDialogs] = useState({
     sucess: false,
     consentForm: false,
+    selectAProduct: false,
   });
   const [valuesForm, setValuesForm] = useState();
   const [FLG_ACORDO, setFLG_ACORDO] = useState(false);
@@ -153,12 +174,33 @@ const UserForm = () => {
   };
 
   const handleConsentAccept = (values) => {
-    setDialogs({
-      ...dialogs,
-      consentForm: true
-    });
-    setValuesForm(values);
-    console.log(values)
+    if (
+      values.flg_compliance === "0" &&
+      values.flg_contratos === "0" &&
+      values.flg_financeiro_e_faturamento_integrados === "0" &&
+      values.flg_inteligencia_artificial === "0" &&
+      values.flg_lgpd === "0" &&
+      values.flg_machine_learning === "0" &&
+      values.flg_robos_de_captura_e_integracao === "0" &&
+      values.flg_sistema_gestão_juridica_empresas === "0" &&
+      values.flg_sistema_gestão_juridica_escritorios === "0" &&
+      values.flg_solucoes_mobile_ios_e_android === "0" &&
+      values.flg_visual_law === "0" &&
+      values.flg_workflow_de_despesas === "0"
+    ) {
+      setDialogs({
+        ...dialogs,
+        selectAProduct: true
+      });
+      console.log('Quem chega', values)
+    } else {
+      setDialogs({
+        ...dialogs,
+        consentForm: true
+      });
+      setValuesForm(values);
+      console.log('Quem chega', values)
+    }
   }
 
   const delay = (tempo) => new Promise(r => setTimeout(r, tempo * 1000));
@@ -186,6 +228,26 @@ const UserForm = () => {
                     <Grid item container spacing={1} justify="center">
                       <Grid item xs={12} sm={6} md={6}>
                         <Field
+                          label="Nome Completo"
+                          variant="outlined"
+                          fullWidth
+                          name="nome"
+                          value={values.nome}
+                          component={TextField}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6} md={6}>
+                        <Field
+                          label="Empresa"
+                          variant="outlined"
+                          fullWidth
+                          name="empresa"
+                          value={values.empresa}
+                          component={TextField}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6} md={6}>
+                        <Field
                           label="Cargo"
                           variant="outlined"
                           fullWidth
@@ -204,32 +266,30 @@ const UserForm = () => {
                           component={TextField}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={6} md={6}>
-                        <Field
-                          label="Empresa"
-                          variant="outlined"
-                          fullWidth
-                          name="empresa"
-                          value={values.empresa}
-                          component={TextField}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6} md={6}>
-                        <Field
-                          label="Nome Completo"
-                          variant="outlined"
-                          fullWidth
-                          name="nome"
-                          value={values.nome}
-                          component={TextField}
-                        />
-                      </Grid>
                       <Grid item xs={12} sm={12} md={12}>
                         <Field
                           label="WhatsApp"
                           variant="outlined"
                           fullWidth
                           name="telefone"
+                          render={({ field }) => (
+                            <MaskedInput
+                              style={{
+                                width: '95%',
+                                height: 30,
+                                padding: 10,
+                                border: '1px solid #ccc',
+                                borderRadius: 5,
+                              }}
+                              {...field}
+                              mask={phoneNumberMask}
+                              id="telefone"
+                              placeholder="Digite seu whatsapp com DDD"
+                              type="text"
+                            // onChange={handleChange}
+                            // onBlur={handleBlur}
+                            />
+                          )}
                           value={values.telefone}
                           component={TextField}
                         />
@@ -285,7 +345,7 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_contratos = values.flg_contratos === '0' ? '1' : '0'}
+                                onChange={() => values.flg_inteligencia_artificial = values.flg_inteligencia_artificial === '0' ? '1' : '0'}
                                 sx={{
                                   color: green[800],
                                   '&.Mui-checked': {
@@ -528,6 +588,25 @@ const UserForm = () => {
           </Button>
           <Button disabled={!FLG_ACORDO} variant="contained" onClick={handleAddData} style={{ color: '#fff', backgroundColor: FLG_ACORDO ? 'rgba(56, 242, 5, 0.93)' : '#ccc' }} >
             Enviar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={dialogs.selectAProduct}
+        onClose={handleCloseDialogs('selectAProduct')}
+      >
+        <DialogTitle>
+          Aviso!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText >
+            Selecione ao menos um produto
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" onClick={handleCloseDialogs('selectAProduct')} style={{ display: loading ? 'none' : 'block', color: '#fff', backgroundColor: '#f00' }} autoFocus >
+            Entendi!
           </Button>
         </DialogActions>
       </Dialog>
