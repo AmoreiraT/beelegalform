@@ -601,7 +601,7 @@ const UserForm = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText >
-            Selecione ao menos um produto
+            É necessário escolher ao menos uma opção de interesse
           </DialogContentText>
         </DialogContent>
         <DialogActions>
