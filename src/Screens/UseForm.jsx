@@ -103,6 +103,7 @@ const UserForm = () => {
   const [FLG_ACORDO, setFLG_ACORDO] = useState(false);
   const [loading, setLoading] = useState(false);
   const classes = useStyle();
+  const [returnMessage, setReturnMessage] = useState('');
 
   const handleOpenDialogs = (item) => (value) => {
     setDialogs({
@@ -135,6 +136,8 @@ const UserForm = () => {
     setLoading(true);
     await delay(3);
     try {
+      let numsStr = valuesForm.telefone.replace(/[^0-9]/g, '');
+      let numeroDeWhatsapp = parseInt(numsStr);
       let save = await fetch('https://apps.beelegal.com.br/juridico_one/Integration/Save', {
         method: "POST",
         headers: {
@@ -161,12 +164,20 @@ const UserForm = () => {
             FLG_DESPESA: valuesForm.flg_workflow_de_despesas,
             NOME: valuesForm.nome,
             CARGO: valuesForm.office,
-            WHATSAPP: valuesForm.telefone,
+            WHATSAPP: numeroDeWhatsapp,
             FLG_ACORDO: FLG_ACORDO ? '1' : '0',
             FLG_ML: valuesForm.flg_machine_learning
           }
         })
       });
+
+      let resSave = await save.json();
+      console.log('Resposta', resSave)
+      if (resSave.error) {
+        setReturnMessage(resSave.error.message);
+      } else {
+        setReturnMessage('Você receberá um whatsapp com o seu número de sorteio e os dados sobre o sorteio… BOA SORTE !!!');
+      }
     } catch (errorSaveData) {
       console.log('error save data', errorSaveData)
     }
@@ -192,7 +203,10 @@ const UserForm = () => {
         ...dialogs,
         selectAProduct: true
       });
-      console.log('Quem chega', values)
+      console.log('Quem chega', values);
+      let numsStr = values.telefone.replace(/[^0-9]/g, '');
+      let numeroDeWhatsapp = parseInt(numsStr);
+      console.log('Numero de telefone', numeroDeWhatsapp)
     } else {
       setDialogs({
         ...dialogs,
@@ -200,6 +214,9 @@ const UserForm = () => {
       });
       setValuesForm(values);
       console.log('Quem chega', values)
+      let numsStr = values.telefone.replace(/[^0-9]/g, '');
+      let numeroDeWhatsapp = parseInt(numsStr);
+      console.log('Numero de telefone', numeroDeWhatsapp);
     }
   }
 
@@ -502,7 +519,7 @@ const UserForm = () => {
         onClose={handleCloseDialogs('sucess')}
       >
         <DialogTitle>
-          {loading ? 'Salvando dados' : 'Titulo de agradecimento'}
+          {loading ? 'Salvando dados' : 'ATENÇÃO!'}
         </DialogTitle>
         <DialogContent>
           {
@@ -519,7 +536,7 @@ const UserForm = () => {
               </Grid>
               :
               <DialogContentText >
-                Mensagem de agradecimento
+                {returnMessage}
               </DialogContentText>
           }
         </DialogContent>
@@ -553,12 +570,13 @@ const UserForm = () => {
                 nosso site, em
                 <a
                   style={{
-                    color: 'rgba(56, 242, 5, 0.93)'
+                    color: 'rgba(56, 242, 5, 0.93)',
+                    textDecoration: 'none',
                   }}
                   target="_blank"
                   href='https://beelegal.com.br/'
                 >
-                  beelegal.com.br
+                  : beelegal.com.br
                 </a>
               </Typography>
             </Grid>
