@@ -52,18 +52,18 @@ const initialValues = {
   telefone: "",
   email: "",
   office: "",
-  flg_lgpd: '0',
-  flg_compliance: '0',
-  flg_contratos: '0',
-  flg_inteligencia_artificial: '0',
-  flg_machine_learning: '0',
-  flg_sistema_gestão_juridica_escritorios: '0',
-  flg_sistema_gestão_juridica_empresas: '0',
-  flg_visual_law: '0',
-  flg_robos_de_captura_e_integracao: '0',
-  flg_financeiro_e_faturamento_integrados: '0',
-  flg_workflow_de_despesas: '0',
-  flg_solucoes_mobile_ios_e_android: '0',
+  flg_lgpd: 0,
+  flg_compliance: 0,
+  flg_contratos: 0,
+  flg_inteligencia_artificial: 0,
+  flg_machine_learning: 0,
+  flg_sistema_gestão_juridica_escritorios: 0,
+  flg_sistema_gestão_juridica_empresas: 0,
+  flg_visual_law: 0,
+  flg_robos_de_captura_e_integracao: 0,
+  flg_financeiro_e_faturamento_integrados: 0,
+  flg_workflow_de_despesas: 0,
+  flg_solucoes_mobile_ios_e_android: 0,
 }
 
 //validation schema
@@ -165,7 +165,7 @@ const UserForm = () => {
             NOME: valuesForm.nome,
             CARGO: valuesForm.office,
             WHATSAPP: numeroDeWhatsapp,
-            FLG_ACORDO: FLG_ACORDO ? '1' : '0',
+            FLG_ACORDO: FLG_ACORDO ? 1 : 0,
             FLG_ML: valuesForm.flg_machine_learning
           }
         })
@@ -186,18 +186,18 @@ const UserForm = () => {
 
   const handleConsentAccept = (values) => {
     if (
-      values.flg_compliance === "0" &&
-      values.flg_contratos === "0" &&
-      values.flg_financeiro_e_faturamento_integrados === "0" &&
-      values.flg_inteligencia_artificial === "0" &&
-      values.flg_lgpd === "0" &&
-      values.flg_machine_learning === "0" &&
-      values.flg_robos_de_captura_e_integracao === "0" &&
-      values.flg_sistema_gestão_juridica_empresas === "0" &&
-      values.flg_sistema_gestão_juridica_escritorios === "0" &&
-      values.flg_solucoes_mobile_ios_e_android === "0" &&
-      values.flg_visual_law === "0" &&
-      values.flg_workflow_de_despesas === "0"
+      values.flg_compliance === 0 &&
+      values.flg_contratos === 0 &&
+      values.flg_financeiro_e_faturamento_integrados === 0 &&
+      values.flg_inteligencia_artificial === 0 &&
+      values.flg_lgpd === 0 &&
+      values.flg_machine_learning === 0 &&
+      values.flg_robos_de_captura_e_integracao === 0 &&
+      values.flg_sistema_gestão_juridica_empresas === 0 &&
+      values.flg_sistema_gestão_juridica_escritorios === 0 &&
+      values.flg_solucoes_mobile_ios_e_android === 0 &&
+      values.flg_visual_law === 0 &&
+      values.flg_workflow_de_despesas === 0
     ) {
       setDialogs({
         ...dialogs,
@@ -317,7 +317,7 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_compliance = values.flg_compliance === '0' ? '1' : '0'}
+                                onChange={() => values.flg_compliance = values.flg_compliance === 0 ? 1 : 0}
                                 sx={{
                                   color: green[800],
                                   '&.Mui-checked': {
@@ -332,7 +332,7 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_contratos = values.flg_contratos === '0' ? '1' : '0'}
+                                onChange={() => values.flg_contratos = values.flg_contratos === 0 ? 1 : 0}
                                 sx={{
                                   color: green[800],
                                   '&.Mui-checked': {
@@ -347,7 +347,7 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_financeiro_e_faturamento_integrados = values.flg_financeiro_e_faturamento_integrados === '0' ? '1' : '0'}
+                                onChange={() => values.flg_financeiro_e_faturamento_integrados = values.flg_financeiro_e_faturamento_integrados === 0 ? 1 : 0}
                                 sx={{
                                   color: green[800],
                                   '&.Mui-checked': {
@@ -362,7 +362,7 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_inteligencia_artificial = values.flg_inteligencia_artificial === '0' ? '1' : '0'}
+                                onChange={() => values.flg_inteligencia_artificial = values.flg_inteligencia_artificial === 0 ? 1 : 0}
                                 sx={{
                                   color: green[800],
                                   '&.Mui-checked': {
@@ -376,7 +376,7 @@ const UserForm = () => {
                           <FormControlLabel
                             control={
                               <Checkbox
-                                onChange={() => values.flg_lgpd = values.flg_lgpd === '0' ? '1' : '0'}
+                                onChange={() => values.flg_lgpd = values.flg_lgpd === 0 ? 1 : 0}
                                 style={{ color: '#2FDF2F' }}
                                 sx={{
                                   color: green[800],
@@ -392,7 +392,7 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_machine_learning = values.flg_machine_learning === '0' ? '1' : '0'}
+                                onChange={() => values.flg_machine_learning = values.flg_machine_learning === 0 ? 1 : 0}
                                 sx={{
                                   color: green[800],
                                   '&.Mui-checked': {
@@ -407,7 +407,7 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_robos_de_captura_e_integracao = values.flg_robos_de_captura_e_integracao === '0' ? '1' : '0'}
+                                onChange={() => values.flg_robos_de_captura_e_integracao = values.flg_robos_de_captura_e_integracao === 0 ? 1 : 0}
                                 sx={{
                                   color: green[800],
                                   '&.Mui-checked': {
@@ -422,7 +422,7 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_sistema_gestão_juridica_empresas = values.flg_sistema_gestão_juridica_empresas === '0' ? '1' : '0'}
+                                onChange={() => values.flg_sistema_gestão_juridica_empresas = values.flg_sistema_gestão_juridica_empresas === 0 ? 1 : 0}
                                 sx={{
                                   color: green[800],
                                   '&.Mui-checked': {
@@ -437,7 +437,7 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_sistema_gestão_juridica_escritorios = values.flg_sistema_gestão_juridica_escritorios === '0' ? '1' : '0'}
+                                onChange={() => values.flg_sistema_gestão_juridica_escritorios = values.flg_sistema_gestão_juridica_escritorios === 0 ? 1 : 0}
                                 sx={{
                                   color: green[800],
                                   '&.Mui-checked': {
@@ -452,7 +452,7 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_solucoes_mobile_ios_e_android = values.flg_solucoes_mobile_ios_e_android === '0' ? '1' : '0'}
+                                onChange={() => values.flg_solucoes_mobile_ios_e_android = values.flg_solucoes_mobile_ios_e_android === 0 ? 1 : 0}
                                 sx={{
                                   color: green[800],
                                   '&.Mui-checked': {
@@ -467,7 +467,7 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_visual_law = values.flg_visual_law === '0' ? '1' : '0'}
+                                onChange={() => values.flg_visual_law = values.flg_visual_law === 0 ? 1 : 0}
                                 sx={{
                                   color: green[800],
                                   '&.Mui-checked': {
@@ -482,7 +482,7 @@ const UserForm = () => {
                             control={
                               <Checkbox
                                 style={{ color: '#2FDF2F' }}
-                                onChange={() => values.flg_workflow_de_despesas = values.flg_workflow_de_despesas === '0' ? '1' : '0'}
+                                onChange={() => values.flg_workflow_de_despesas = values.flg_workflow_de_despesas === 0 ? 1 : 0}
                                 sx={{
                                   color: green[800],
                                   '&.Mui-checked': {
